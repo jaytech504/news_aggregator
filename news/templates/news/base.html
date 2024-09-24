@@ -1,0 +1,245 @@
+<!-- news/templates/news/topic.html --><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern News Aggregator</title>
+    <style>
+        /* Base styles for the entire layout */
+        body {
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #ecf0f1;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input,
+        .search-bar select,
+        .search-bar button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Styling for the news cards */
+        .news-container {
+            margin: 20px;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .news-card .content {
+            padding: 15px;
+        }
+
+        .news-card h3 {
+            font-size: 20px;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .news-card p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .news-card .share {
+            margin-top: 10px;
+        }
+
+        .news-card .share a {
+            text-decoration: none;
+            margin-right: 10px;
+            color: #3498db;
+            font-size: 14px;
+        }
+
+        .news-card .share a:hover {
+            color: #2980b9;
+        }
+
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .pagination a, .pagination span {
+            padding: 10px 15px;
+            margin: 0 5px;
+            text-decoration: none;
+            color: #3498db;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .pagination .current {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .pagination .disabled {
+            color: #bdc3c7;
+            pointer-events: none;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar input,
+            .search-bar select,
+            .search-bar button {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .news-card img {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .news-card h3 {
+                font-size: 18px;
+            }
+
+            .news-card p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with categories -->
+    <div class="navbar">
+        <div>
+            <a href="?category=general">All News</a>
+            <a href="?category=business">Business</a>
+            <a href="?category=entertainment">Entertainment</a>
+            <a href="?category=sports">Sports</a>
+            <a href="?category=technology">Technology</a>
+            <a href="?category=health">Health</a>
+        </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <form method="GET" action="/" style="display: flex; flex-wrap: wrap; justify-content: center;">
+            <input type="text" name="search" placeholder="Search news..." value="{{ query }}">
+            <select name="country">
+                <option value="us" {% if country == 'us' %}selected{% endif %}>United States</option>
+                <option value="gb" {% if country == 'gb' %}selected{% endif %}>United Kingdom</option>
+                <option value="in" {% if country == 'in' %}selected{% endif %}>India</option>
+                <option value="ca" {% if country == 'ca' %}selected{% endif %}>Canada</option>
+                <option value="au" {% if country == 'au' %}selected{% endif %}>Australia</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Display articles -->
+    <div class="news-container">
+        {% for article in page_obj %}
+        <div class="news-card">
+            {% if article.urlToImage %}
+            <img src="{{ article.urlToImage }}" alt="News Image">
+            {% endif %}
+            <div class="content">
+                <h3><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h3>
+                <p>{{ article.description }}</p>
+                <div class="share">
+                    <span>Share:</span>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}" target="_blank">Facebook</a>
+                    <a href="https://twitter.com/share?url={{ article.url }}" target="_blank">Twitter</a>
+                    <a href="https://wa.me/?text={{ article.url }}" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page=1{% if query %}&search={{ query }}{% endif %}&country={{ country }}&category={{ category }}">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&search={{ query }}{% endif %}&country={{ country }}&category={{ category }}">&lt; Previous</a>
+        {% else %}
+        <span class="disabled">&laquo; First</span>
+        <span class="disabled">&lt; Previous</span>
+        {% endif %}
+
+        <span class="current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&search={{ query }}{% endif %}&country={{ country }}&category={{ category }}">Next &gt;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&search={{ query }}{% endif %}&country={{ country }}&category={{ category }}">Last &raquo;</a>
+        {% else %}
+        <span class="disabled">Next &gt;</span>
+        <span class="disabled">Last &raquo;</span>
+        {% endif %}
+    </div>
+</body>
+</html>
+
