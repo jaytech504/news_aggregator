@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header div {
+    margin: 10px 0;
+}
+
+header select, button {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.articles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.article {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    text-align: center;
+}
+
+.article img {
+    width: 100%;
+    height: auto;
+}
+
+.article h2 {
+    font-size: 20px;
+}
+
+.share-buttons {
+    margin-top: 10px;
+}
+
+.share-buttons button, .share-buttons a {
+    margin: 5px;
+}
