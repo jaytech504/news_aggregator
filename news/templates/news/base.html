@@ -17,9 +17,14 @@
         .navbar {
             background-color: #2c3e50;
             padding: 10px 20px;
+            z-index: 1000;
+            width: 100%;
+            top: 0; /* Fixes it to the top of the viewport */
+            left: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
         }
 
         .navbar a {
@@ -35,6 +40,7 @@
 
         .search-bar {
             display: flex;
+            margin-top: 150px;
             justify-content: center;
             margin: 20px 0;
             flex-wrap: wrap;
@@ -64,6 +70,9 @@
         /* Styling for the news cards */
         .news-container {
             margin: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .news-card {
@@ -73,6 +82,8 @@
             overflow: hidden;
             transition: all 0.3s ease;
             margin-bottom: 15px;
+            flex: 0 0 calc(50% - 8px);
+            
         }
 
         .news-card:hover {
@@ -90,15 +101,17 @@
             padding: 15px;
         }
 
-        .news-card h3 {
-            font-size: 20px;
+        .news-card h3 a {
+            font-size: 19px;
             margin: 0;
-            color: #2c3e50;
+            color: #3f96ee;
+            font-family: Merriweather;
         }
 
         .news-card p {
-            font-size: 14px;
-            color: #7f8c8d;
+            font-size: 13px;
+            color: #090a0a;
+            font-family: Roboto;
         }
 
         .news-card .share {
@@ -176,6 +189,7 @@
     <div class="navbar">
         <div>
             <a href="?category=general">All News</a>
+            <a href="?category=politics">Politics</a>
             <a href="?category=business">Business</a>
             <a href="?category=entertainment">Entertainment</a>
             <a href="?category=sports">Sports</a>
